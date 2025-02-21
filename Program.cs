@@ -1,3 +1,6 @@
+using FinniezProject.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace FinniezProject
 {
     public class Program
@@ -8,6 +11,10 @@ namespace FinniezProject
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<AppDBContext>(options =>
+
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"))
+            );
 
             var app = builder.Build();
 
@@ -34,3 +41,4 @@ namespace FinniezProject
         }
     }
 }
+//20:00n nwattuwe
