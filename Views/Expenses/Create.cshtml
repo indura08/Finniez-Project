@@ -1,9 +1,11 @@
 ﻿@model Expense
 
 <div class="container">
-    <h2>Add Expenses</h2>
+    <h2>Add Expenses</h2>a
 
-    <form asp-action="Create" method="post">
+    <form asp-action="Create2" method="post">
+        @* <form asp-action="Create2" asp-controller="DifferentController" method="post"> - menna meka use krnne wena controller ekakat request ek ywanwan nm, dan methn me create.cshtml view eka render wena contorller ekemai create2method ek hoynne  *@
+
         <div>
             <label asp-for="Description" class="form-label"></label>
             <input asp-for="Description" class="form-control"/>

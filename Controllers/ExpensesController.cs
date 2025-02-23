@@ -1,4 +1,5 @@
 ﻿using FinniezProject.Data;
+using FinniezProject.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinniezProject.Controllers
@@ -28,7 +29,21 @@ namespace FinniezProject.Controllers
         public IActionResult Create()
         {
             return View();
-            //37:42 n nwattuwe
+            
+        }
+
+        [HttpPost]
+        public IActionResult Create2(Expense expense)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Expenses.Add(expense);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(expense);
         }
     }
 }
