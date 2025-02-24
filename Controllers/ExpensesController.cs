@@ -1,23 +1,33 @@
 ﻿using FinniezProject.Data;
+using FinniezProject.Data.Services;
 using FinniezProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinniezProject.Controllers
 {
     public class ExpensesController : Controller
     {
-        private readonly AppDBContext _context;
+        //private readonly AppDBContext _context;
 
-        public ExpensesController(AppDBContext context)
+        //public ExpensesController(AppDBContext context)
+        //{
+        //    _context = context;
+
+        //} // its is not a good practice to have datatbase access inside the controller when the application is hosted live in production environment so we have to create services
+
+        private readonly IExpensesService _expenseService;
+
+        public ExpensesController(IExpensesService expenseService)
         {
-            _context = context;
-
+            _expenseService = expenseService;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
             //in index method we need to get all of the expenses data from database
 
-            var expenses = _context.Expenses.ToList();
+            var expenses = await _expenseService.GetAll();
             
             //me return ekn krnne adla controller ekt thiyna index.cshtml file eka retun wewnwa view ekk widiyt 
             // e index.cshtml file ekt input ekk widiyt api me controller ekn output krnwa me expenses list eka 
@@ -33,17 +43,23 @@ namespace FinniezProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create2(Expense expense)
+        public async Task<IActionResult> Create2(Expense expense)
         {
             if (ModelState.IsValid)
             {
-                _context.Expenses.Add(expense);
-                _context.SaveChanges();
+                await  _expenseService.Add(expense);
+                
 
                 return RedirectToAction("Index");
             }
 
             return View(expense);
+        }
+
+        public IActionResult GetChart() 
+        {
+            var data = _expenseService.GetChartData();
+            return Json(data);
         }
     }
 }
