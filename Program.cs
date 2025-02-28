@@ -43,4 +43,3 @@ namespace FinniezProject
         }
     }
 }
-//20:00n nwattuwe
